@@ -53,3 +53,5 @@ geckodriver.log
 .history
 .vscode
 test.ipynb
+
+/env/
