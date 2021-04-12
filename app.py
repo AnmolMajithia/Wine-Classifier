@@ -3,6 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
+from helpers import PredHelper
 
 external_stylesheets = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
@@ -12,6 +13,8 @@ app = dash.Dash(__name__,
                 suppress_callback_exceptions=True)
 
 app.title = "Wine Class"
+
+pred_helper = PredHelper()
 
 app.layout = html.Div([
     html.Div([
@@ -44,7 +47,8 @@ app.layout = html.Div([
     [Input('wine-description-submit', 'n_clicks')],
     [State('wine-description-textarea', 'value')])
 def update_output(n_clicks, input_string):
-    return "Input: %s"%input_string
+    wine_predicted_variety = pred_helper.get_variety(input_string)
+    return "Predicted wine variety: %s"%wine_predicted_variety
 
 
 if __name__ == '__main__':

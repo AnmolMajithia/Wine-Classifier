@@ -30,7 +30,9 @@ class PredHelper:
         input_X = self.vectorizer.transform([input_text]).toarray()
         output_variety = self.model.predict(input_X)
         output_variety = self.encoder.inverse_transform(output_variety)
-        return output_variety
+
+        # Assuming single input
+        return output_variety[0]
 
 if __name__=="__main__":
     pred_helper = PredHelper()
