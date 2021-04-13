@@ -41,6 +41,14 @@ class PlotHelper:
     def __init__(self, data_dir="./data/"):
         req_cols = ['country', 'designation', 'points', 'price', 'province', 'region_1', 'region_2', 'title','variety', 'winery']
         self.df = pd.read_csv(os.path.join(data_dir, "winemag-data-130k-v2.csv"), index_col=[0], usecols=req_cols)
+        self.template = 'plotly_dark'
+
+    def _transparent_fig(self, fig):
+        fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
+                            plot_bgcolor="rgba(0, 0, 0, 0)",
+                            paper_bgcolor="rgba(0, 0, 0, 0)",
+                            geo_bgcolor="rgba(0, 0, 0, 0)")
+        return fig
     
     def get_map(self, variety):
         df_filtered = self.df[self.df['variety']==variety]
@@ -51,15 +59,24 @@ class PlotHelper:
                         locationmode='country names',
                         color='points',
                         color_continuous_scale='ice',
-                        template='plotly_dark')
+                        template=self.template)
 
         fig.update_geos(projection_type="natural earth")
-        fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
-                            plot_bgcolor="rgba(0, 0, 0, 0)",
-                            paper_bgcolor="rgba(0, 0, 0, 0)",
-                            geo_bgcolor="rgba(0, 0, 0, 0)")
+        
 
-        return fig
+        return self._transparent_fig(fig)
+    
+    def get_price_point_distribution(self, variety):
+        df_filtered = self.df[self.df['variety']==variety]
+        df_plot = df_filtered.reset_index()[['country', 'price', 'points', 'winery']].dropna()
+        fig = px.scatter(data_frame=df_plot, 
+                    x='price', 
+                    y='points', 
+                    color='country', 
+                    hover_data=['winery'], 
+                    template=self.template)
+        
+        return self._transparent_fig(fig)
 
 if __name__=="__main__":
     pred_helper = PredHelper()

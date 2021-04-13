@@ -36,7 +36,13 @@ app.layout = html.Div([
         # Right area of dash
         html.Div([
             html.P("Placeholder for all charts", id="wine-plots-variety-text"),
-            dcc.Graph(id="wine-plots-map")
+            dcc.Graph(id="wine-plots-map"),
+            html.Div([
+                html.Div([
+                    dcc.Graph(id="wine-plots-price-distribution")
+                ],className="six columns"),
+                html.Div([],className="six columns")
+            ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
 ], style={'height':'100vh'})
@@ -46,18 +52,20 @@ app.layout = html.Div([
 # Description on submit callback
 @app.callback(
     [Output('wine-plots-variety-text', 'children'),
-    Output('wine-plots-map', 'figure')
+    Output('wine-plots-map', 'figure'),
+    Output('wine-plots-price-distribution', 'figure')
     ],
     [Input('wine-description-submit', 'n_clicks')],
     [State('wine-description-textarea', 'value')])
 def update_output(n_clicks, input_string):
-    print("Updating")
     wine_predicted_variety = pred_helper.get_variety(input_string)
     wine_text = "Predicted wine variety: %s"%wine_predicted_variety
 
     wine_points_map = plot_helper.get_map(wine_predicted_variety)
+
+    wine_price_distrib = plot_helper.get_price_point_distribution(wine_predicted_variety)
     
-    return wine_text, wine_points_map
+    return wine_text, wine_points_map, wine_price_distrib
 
 
 if __name__ == '__main__':
