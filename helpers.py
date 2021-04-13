@@ -75,7 +75,7 @@ class PlotHelper:
                     color='country', 
                     hover_data=['winery'], 
                     template=self.template)
-        
+        fig.update_xaxes(side="top")
         return self._transparent_fig(fig)
 
 if __name__=="__main__":

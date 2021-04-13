@@ -31,9 +31,20 @@
     background: #2f2f2f;
     padding: 10px;
     height: 100%;
-    margin-left: 26%;
+    margin-left: 23%;
+    width: 76% !important;
 }
 
 .row{
     height: 100vh;
+}
+
+.left-border{
+    border-left: 1px solid #1e1e1e;
+    padding-left: 4px;
+}
+.top-border{
+    border-top: 1px solid #1e1e1e;
+    padding-top: 4px;
+    margin-left: 0%;
 }
