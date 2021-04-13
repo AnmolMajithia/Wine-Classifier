@@ -25,25 +25,25 @@ app.layout = html.Div([
             dcc.Textarea(
                 id='wine-description-textarea',
                 value="Enter your description here",
-                style={'width': '100%', 'height': 300},
+                style={'width': '90%'}
             ),
 
             # Submit button
             html.Button("Show me Da Powaa!", id='wine-description-submit', n_clicks=0)
-        ], id='wine-description-container', className='three columns'),
+        ], id='wine-description-container', className='three columns darker-container'),
 
         # Right area of dash
         html.Div([
-            html.P("Placeholder for all charts")
-        ], id='wine-plots-container', className='nine columns'),
+            html.P("Placeholder for all charts", id="wine-plots-variety-text")
+        ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
-])
+], style={'height':'100vh'})
 
 
 
 # Description on submit callback
 @app.callback(
-    Output('wine-plots-container', 'children'),
+    Output('wine-plots-variety-text', 'children'),
     [Input('wine-description-submit', 'n_clicks')],
     [State('wine-description-textarea', 'value')])
 def update_output(n_clicks, input_string):
