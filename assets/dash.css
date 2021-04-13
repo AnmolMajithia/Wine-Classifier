@@ -1,0 +1,38 @@
+.darker-container{
+    text-align: center;
+    background: #1e1e1e;
+    padding: 10px;
+    height: 100%;
+}
+
+.darker-container button{
+    padding: 0px 10px 0px 10px;
+}
+
+#wine-description-textarea{
+    margin-top: 20%;
+    height: 250px;
+    background-color: #474749;
+    color: #fff;
+}
+
+#wine-description-submit{
+    margin-top: 20px;
+}
+
+#wine-plots-variety-text{
+    margin-top: 25%;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+
+.dark-container{
+    text-align: center;
+    background: #2f2f2f;
+    padding: 10px;
+    height: 100%;
+}
+
+.row{
+    height: 100vh;
+}
