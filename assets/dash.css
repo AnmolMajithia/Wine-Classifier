@@ -3,6 +3,7 @@
     background: #1e1e1e;
     padding: 10px;
     height: 100%;
+    position: fixed;
 }
 
 .darker-container button{
@@ -30,6 +31,7 @@
     background: #2f2f2f;
     padding: 10px;
     height: 100%;
+    margin-left: 26%;
 }
 
 .row{

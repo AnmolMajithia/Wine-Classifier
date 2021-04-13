@@ -37,6 +37,7 @@ app.layout = html.Div([
         html.Div([
             html.P("Placeholder for all charts", id="wine-plots-variety-text"),
             dcc.Graph(id="wine-plots-map"),
+            html.Br(),
             html.Div([
                 html.Div([
                     dcc.Graph(id="wine-plots-price-distribution")
