@@ -10,8 +10,12 @@
     padding: 0px 10px 0px 10px;
 }
 
-#wine-description-textarea{
+.darker-container h4{
     margin-top: 20%;
+    text-decoration: underline;
+}
+
+#wine-description-textarea{
     height: 250px;
     background-color: #474749;
     color: #fff;

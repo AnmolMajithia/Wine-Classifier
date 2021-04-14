@@ -22,6 +22,7 @@ app.layout = html.Div([
 
         # Left area of dash
         html.Div([
+            html.H4("Description"),
             # Input for description
             dcc.Textarea(
                 id='wine-description-textarea',
@@ -54,7 +55,7 @@ app.layout = html.Div([
                 ],className="six columns top-border"),
                 html.Div([
                     dcc.Graph(id='wine-plots-points-bar')
-                ],className="six columns top-border")
+                ],className="six columns top-border left-border")
             ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
