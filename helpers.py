@@ -7,6 +7,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+DEFAULT_DESCRIPTION = """Felix Lavaque 2010 Felix Malbec (Cafayate). Baked plum, molasses, balsamic vinegar and cheesy oak aromas feed into a palate that's braced by a bolt of acidity. A compact set of saucy red-berry and plum flavors features tobacco and peppery accents, while the finish is mildly green in flavor, with respectable weight and balance."""
+
 
 class PredHelper:
     def __init__(self, models_dir="./models", model_name="logistic_regression_88.77.joblib"):
@@ -76,6 +78,21 @@ class PlotHelper:
                     hover_data=['winery'], 
                     template=self.template)
         fig.update_xaxes(side="top")
+        return self._transparent_fig(fig)
+    
+    def get_price_point_bar(self, variety):
+        df_filtered = self.df[self.df['variety']==variety]
+        df_wineries = df_filtered.groupby('winery').mean().sort_values("points").dropna()[-10:].reset_index()
+        fig = px.bar(data_frame=df_wineries, 
+                orientation='h',
+                y='winery', 
+                x='price', 
+                hover_data=['points'], 
+                color='points', 
+                color_continuous_scale='ice', 
+                template='plotly_dark')
+        fig.update_xaxes(side="top")
+        fig.update_yaxes(showticklabels=False, title="")
         return self._transparent_fig(fig)
 
 if __name__=="__main__":
