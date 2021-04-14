@@ -77,6 +77,21 @@ class PlotHelper:
                     template=self.template)
         fig.update_xaxes(side="top")
         return self._transparent_fig(fig)
+    
+    def get_price_point_bar(self, variety):
+        df_filtered = self.df[self.df['variety']==variety]
+        df_wineries = df_filtered.groupby('winery').mean().sort_values("points", ascending=False).dropna()[:10].reset_index()
+        fig = px.bar(data_frame=df_wineries, 
+                orientation='h',
+                y='winery', 
+                x='price', 
+                hover_data=['points'], 
+                color='points', 
+                color_continuous_scale='ice', 
+                template='plotly_dark')
+        fig.update_xaxes(side="top")
+                
+        return self._transparent_fig(fig)
 
 if __name__=="__main__":
     pred_helper = PredHelper()

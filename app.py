@@ -52,7 +52,9 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Graph(id="wine-plots-price-distribution")
                 ],className="six columns top-border"),
-                html.Div([],className="six columns top-border")
+                html.Div([
+                    dcc.Graph(id='wine-plots-points-bar')
+                ],className="six columns top-border")
             ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
@@ -64,7 +66,8 @@ app.layout = html.Div([
 @app.callback(
     [Output('wine-plots-variety-text', 'children'),
     Output('wine-plots-map', 'figure'),
-    Output('wine-plots-price-distribution', 'figure')
+    Output('wine-plots-price-distribution', 'figure'),
+    Output('wine-plots-points-bar', 'figure')
     ],
     [Input('wine-description-submit', 'n_clicks')],
     [State('wine-description-textarea', 'value')])
@@ -75,8 +78,10 @@ def update_output(n_clicks, input_string):
     wine_points_map = plot_helper.get_map(wine_predicted_variety)
 
     wine_price_distrib = plot_helper.get_price_point_distribution(wine_predicted_variety)
+
+    wine_points_bar = plot_helper.get_price_point_bar(wine_predicted_variety)
     
-    return wine_predicted_variety, wine_points_map, wine_price_distrib
+    return wine_predicted_variety, wine_points_map, wine_price_distrib, wine_points_bar
 
 
 if __name__ == '__main__':
