@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+DEFAULT_DESCRIPTION = """Felix Lavaque 2010 Felix Malbec (Cafayate). Baked plum, molasses, balsamic vinegar and cheesy oak aromas feed into a palate that's braced by a bolt of acidity. A compact set of saucy red-berry and plum flavors features tobacco and peppery accents, while the finish is mildly green in flavor, with respectable weight and balance."""
 
 class PredHelper:
     def __init__(self, models_dir="./models", model_name="logistic_regression_88.77.joblib"):
@@ -90,7 +91,7 @@ class PlotHelper:
                 color_continuous_scale='ice', 
                 template='plotly_dark')
         fig.update_xaxes(side="top")
-                
+        fig.update_yaxes(showticklabels=False)
         return self._transparent_fig(fig)
 
 if __name__=="__main__":

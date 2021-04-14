@@ -3,7 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
-from helpers import PlotHelper, PredHelper
+from helpers import PlotHelper, PredHelper, DEFAULT_DESCRIPTION
 
 external_stylesheets = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
@@ -25,7 +25,7 @@ app.layout = html.Div([
             # Input for description
             dcc.Textarea(
                 id='wine-description-textarea',
-                value="Enter your description here",
+                value=DEFAULT_DESCRIPTION,
                 style={'width': '90%'}
             ),
 
