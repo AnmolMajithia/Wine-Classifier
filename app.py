@@ -29,9 +29,13 @@ app.layout = html.Div([
                 value=DEFAULT_DESCRIPTION,
                 style={'width': '90%'}
             ),
-
             # Submit button
-            html.Button("Show me Da Powaa!", id='wine-description-submit', n_clicks=0)
+            html.Button("Show me Da Powaa!", id='wine-description-submit', n_clicks=0),
+            html.Div([
+                html.Span(html.B("Variety"), style={"text-decoration": "underline", "font-size":"large"}),
+                html.Br(),
+                html.Span("Predicted", id="wine-plots-variety-text"),
+            ], className="darker-res-container")
         ], id='wine-description-container', className='three columns darker-container'),
 
         # Right area of dash
@@ -39,13 +43,10 @@ app.layout = html.Div([
             # Right Top div with map and prediction
             html.Div([
                 html.Div([
-                    html.Span(html.B("Variety"), style={"text-decoration": "underline", "font-size":"large"}),
-                    html.Br(),
-                    html.Span("Predicted", id="wine-plots-variety-text"),
-                ], className="three columns"),
-                html.Div([
                     dcc.Graph(id="wine-plots-map")
-                ], className="nine columns left-border"),   
+                ], className="eight columns"),   
+                html.Div([
+                ], className="three columns")
             ]),
             html.Br(),
             # Right Bottom div with price distrib and one placeholder
