@@ -3,6 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
+from plotly import plot
 from helpers import PlotHelper, PredHelper, DEFAULT_DESCRIPTION
 
 external_stylesheets = [
@@ -46,7 +47,8 @@ app.layout = html.Div([
                     dcc.Graph(id="wine-plots-map")
                 ], className="eight columns"),   
                 html.Div([
-                ], className="three columns")
+                    dcc.Graph(id='wine-plots-best-sunburst')
+                ], className="four columns left-border")
             ]),
             html.Br(),
             # Right Bottom div with price distrib and one placeholder
@@ -69,21 +71,23 @@ app.layout = html.Div([
     [Output('wine-plots-variety-text', 'children'),
     Output('wine-plots-map', 'figure'),
     Output('wine-plots-price-distribution', 'figure'),
-    Output('wine-plots-points-bar', 'figure')
+    Output('wine-plots-points-bar', 'figure'),
+    Output('wine-plots-best-sunburst', 'figure')
     ],
     [Input('wine-description-submit', 'n_clicks')],
     [State('wine-description-textarea', 'value')])
 def update_output(n_clicks, input_string):
     wine_predicted_variety = pred_helper.get_variety(input_string)
 
-
     wine_points_map = plot_helper.get_map(wine_predicted_variety)
 
     wine_price_distrib = plot_helper.get_price_point_distribution(wine_predicted_variety)
 
     wine_points_bar = plot_helper.get_price_point_bar(wine_predicted_variety)
+
+    wine_best_sunburst = plot_helper.get_best_sunburst(wine_predicted_variety)
     
-    return wine_predicted_variety, wine_points_map, wine_price_distrib, wine_points_bar
+    return wine_predicted_variety, wine_points_map, wine_price_distrib, wine_points_bar, wine_best_sunburst
 
 
 if __name__ == '__main__':

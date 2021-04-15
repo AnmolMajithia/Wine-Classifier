@@ -95,6 +95,23 @@ class PlotHelper:
         fig.update_yaxes(showticklabels=False, title="")
         return self._transparent_fig(fig)
 
+    def get_best_sunburst(self, variety):
+        df_filtered = self.df[self.df['variety']==variety].reset_index()
+        df_sun = df_filtered[['country', 'province', 'winery', 'points']].dropna()
+        df_sun = df_sun[df_sun['points']>90]
+        df_sun = df_sun.groupby(['winery', 'country', 'province'])['points'].mean().reset_index()
+        df_sun = df_sun.sort_values('points',ascending = False).groupby('country').head(5)
+
+        fig = px.sunburst(data_frame=df_sun, 
+        path=['country', 'province', 'winery'], 
+        values='points', 
+        branchvalues='total', 
+        color='points', 
+        color_continuous_scale='ice',
+        template='plotly_dark')
+
+        return self._transparent_fig(fig)
+
 if __name__=="__main__":
     pred_helper = PredHelper()
     output = pred_helper.get_variety(
