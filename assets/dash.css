@@ -24,6 +24,9 @@
     padding-top: 20px;
 }
 
+.darker-res-container:hover{
+    border-color: #f44336;
+}
 
 #wine-description-textarea{
     height: 250px;
