@@ -41,24 +41,26 @@ app.layout = html.Div([
 
         # Right area of dash
         html.Div([
-            # Right Top div with map and prediction
-            html.Div([
+            dcc.Loading([
+                # Right Top div with map and prediction
                 html.Div([
-                    dcc.Graph(id="wine-plots-map")
-                ], className="seven columns"),   
+                    html.Div([
+                        dcc.Graph(id="wine-plots-map")
+                    ], className="seven columns"),   
+                    html.Div([
+                        dcc.Graph(id='wine-plots-best-sunburst')
+                    ], className="five columns left-border")
+                ]),
+                html.Br(),
+                # Right Bottom div with price distrib and one placeholder
                 html.Div([
-                    dcc.Graph(id='wine-plots-best-sunburst')
-                ], className="five columns left-border")
-            ]),
-            html.Br(),
-            # Right Bottom div with price distrib and one placeholder
-            html.Div([
-                html.Div([
-                    dcc.Graph(id="wine-plots-price-distribution")
-                ],className="six columns top-border"),
-                html.Div([
-                    dcc.Graph(id='wine-plots-points-bar')
-                ],className="six columns top-border left-border")
+                    html.Div([
+                        dcc.Graph(id="wine-plots-price-distribution")
+                    ],className="six columns top-border"),
+                    html.Div([
+                        dcc.Graph(id='wine-plots-points-bar')
+                    ],className="six columns top-border left-border")
+                ])
             ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
