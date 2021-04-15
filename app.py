@@ -1,6 +1,7 @@
 import os
 import dash
 import dash_core_components as dcc
+from dash_core_components.Loading import Loading
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
 from plotly import plot
@@ -41,27 +42,43 @@ app.layout = html.Div([
 
         # Right area of dash
         html.Div([
-            dcc.Loading([
+
                 # Right Top div with map and prediction
                 html.Div([
                     html.Div([
-                        dcc.Graph(id="wine-plots-map")
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id="wine-plots-map")                            
+                            ])
+                        ])
                     ], className="seven columns"),   
                     html.Div([
-                        dcc.Graph(id='wine-plots-best-sunburst')
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id='wine-plots-best-sunburst')                          
+                            ])
+                        ])
+                        
                     ], className="five columns left-border")
                 ]),
                 html.Br(),
                 # Right Bottom div with price distrib and one placeholder
                 html.Div([
                     html.Div([
-                        dcc.Graph(id="wine-plots-price-distribution")
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id="wine-plots-price-distribution")                        
+                            ])
+                        ])
                     ],className="six columns top-border"),
                     html.Div([
-                        dcc.Graph(id='wine-plots-points-bar')
+                        dcc.Loading([
+                            html.Div([
+                               dcc.Graph(id='wine-plots-points-bar')                         
+                            ])
+                        ])
                     ],className="six columns top-border left-border")
                 ])
-            ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
 ], style={'height':'100vh'})
