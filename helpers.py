@@ -4,6 +4,7 @@ import nltk
 import re
 from nltk.corpus import stopwords
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -44,33 +45,40 @@ class PlotHelper:
         req_cols = ['country', 'designation', 'points', 'price', 'province', 'region_1', 'region_2', 'title','variety', 'winery']
         self.df = pd.read_csv(os.path.join(data_dir, "winemag-data-130k-v2.csv"), index_col=[0], usecols=req_cols)
         self.template = 'plotly_dark'
+        self.colorscale = 'Bluered'
+        
 
-    def _transparent_fig(self, fig):
+    def update_filter(self, variety):
+        self.df_filtered = self.df[self.df['variety']==variety].reset_index()
+        self.colorscale_range = [self.df_filtered['points'].min(), self.df_filtered['points'].max()]
+
+    def _transparent_fig(self, fig, colorscale=False):
         fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
                             plot_bgcolor="rgba(0, 0, 0, 0)",
                             paper_bgcolor="rgba(0, 0, 0, 0)",
                             geo_bgcolor="rgba(0, 0, 0, 0)")
+        if not colorscale:
+            fig.update(layout_coloraxis_showscale=False)
         return fig
     
-    def get_map(self, variety):
-        df_filtered = self.df[self.df['variety']==variety]
-        df_countries = df_filtered.groupby('country')['points'].mean().to_frame().reset_index()
+    def get_map(self):
+        df_countries = self.df_filtered.groupby('country')['points'].mean().to_frame().reset_index()
 
         fig = px.choropleth(data_frame=df_countries,
                         locations='country',
                         locationmode='country names',
                         color='points',
-                        color_continuous_scale='ice',
-                        template=self.template)
+                        color_continuous_scale=self.colorscale,
+                        template=self.template,
+                        range_color=self.colorscale_range)
 
         fig.update_geos(projection_type="natural earth")
         
 
         return self._transparent_fig(fig)
     
-    def get_price_point_distribution(self, variety):
-        df_filtered = self.df[self.df['variety']==variety]
-        df_plot = df_filtered.reset_index()[['country', 'price', 'points', 'winery']].dropna()
+    def get_price_point_distribution(self):
+        df_plot = self.df_filtered.reset_index()[['country', 'price', 'points', 'winery']].dropna()
         fig = px.scatter(data_frame=df_plot, 
                     x='price', 
                     y='points', 
@@ -80,24 +88,23 @@ class PlotHelper:
         fig.update_xaxes(side="top")
         return self._transparent_fig(fig)
     
-    def get_price_point_bar(self, variety):
-        df_filtered = self.df[self.df['variety']==variety]
-        df_wineries = df_filtered.groupby('winery').mean().sort_values("points").dropna()[-10:].reset_index()
+    def get_price_point_bar(self):
+        df_wineries = self.df_filtered.groupby('winery').mean().sort_values("points").dropna()[-10:].reset_index()
         fig = px.bar(data_frame=df_wineries, 
                 orientation='h',
                 y='winery', 
                 x='price', 
                 hover_data=['points'], 
                 color='points', 
-                color_continuous_scale='ice', 
-                template='plotly_dark')
+                color_continuous_scale=self.colorscale, 
+                template='plotly_dark',
+                range_color=self.colorscale_range)
         fig.update_xaxes(side="top")
         fig.update_yaxes(showticklabels=False, title="")
         return self._transparent_fig(fig)
 
-    def get_best_sunburst(self, variety):
-        df_filtered = self.df[self.df['variety']==variety].reset_index()
-        df_sun = df_filtered[['country', 'province', 'winery', 'points']].dropna()
+    def get_best_sunburst(self):
+        df_sun = self.df_filtered[['country', 'province', 'winery', 'points']].dropna()
         df_sun = df_sun[df_sun['points']>90]
         df_sun = df_sun.groupby(['winery', 'country', 'province'])['points'].mean().reset_index()
         df_sun = df_sun.sort_values('points',ascending = False).groupby('country').head(5)
@@ -107,10 +114,11 @@ class PlotHelper:
         values='points', 
         branchvalues='total', 
         color='points', 
-        color_continuous_scale='ice',
-        template='plotly_dark')
+        color_continuous_scale=self.colorscale,
+        template='plotly_dark',
+        range_color=self.colorscale_range)
 
-        return self._transparent_fig(fig)
+        return self._transparent_fig(fig, colorscale=True)
 
 if __name__=="__main__":
     pred_helper = PredHelper()

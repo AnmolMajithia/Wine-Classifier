@@ -45,10 +45,10 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     dcc.Graph(id="wine-plots-map")
-                ], className="eight columns"),   
+                ], className="seven columns"),   
                 html.Div([
                     dcc.Graph(id='wine-plots-best-sunburst')
-                ], className="four columns left-border")
+                ], className="five columns left-border")
             ]),
             html.Br(),
             # Right Bottom div with price distrib and one placeholder
@@ -79,13 +79,14 @@ app.layout = html.Div([
 def update_output(n_clicks, input_string):
     wine_predicted_variety = pred_helper.get_variety(input_string)
 
-    wine_points_map = plot_helper.get_map(wine_predicted_variety)
+    plot_helper.update_filter(wine_predicted_variety)
+    wine_points_map = plot_helper.get_map()
 
-    wine_price_distrib = plot_helper.get_price_point_distribution(wine_predicted_variety)
+    wine_price_distrib = plot_helper.get_price_point_distribution()
 
-    wine_points_bar = plot_helper.get_price_point_bar(wine_predicted_variety)
+    wine_points_bar = plot_helper.get_price_point_bar()
 
-    wine_best_sunburst = plot_helper.get_best_sunburst(wine_predicted_variety)
+    wine_best_sunburst = plot_helper.get_best_sunburst()
     
     return wine_predicted_variety, wine_points_map, wine_price_distrib, wine_points_bar, wine_best_sunburst
 
