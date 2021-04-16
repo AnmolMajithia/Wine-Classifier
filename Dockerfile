@@ -7,8 +7,8 @@ WORKDIR /app
 COPY . /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
-RUN python -m nltk.downloader punkt stopwords wordnet
 
+RUN python -c "import nltk;nltk.download('punkt');nltk.download('stopwords');nltk.download('wordnet')"
 
 EXPOSE 8050
 
