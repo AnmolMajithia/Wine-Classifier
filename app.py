@@ -14,7 +14,7 @@ app = dash.Dash(__name__,
                 external_stylesheets=external_stylesheets,
                 suppress_callback_exceptions=True)
 
-app.title = "Wine Class"
+app.title = "Incy WineC"
 
 pred_helper = PredHelper()
 plot_helper = PlotHelper()
