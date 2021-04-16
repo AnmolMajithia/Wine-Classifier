@@ -1,6 +1,7 @@
 import os
 import dash
 import dash_core_components as dcc
+from dash_core_components.Loading import Loading
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
 from plotly import plot
@@ -41,25 +42,43 @@ app.layout = html.Div([
 
         # Right area of dash
         html.Div([
-            # Right Top div with map and prediction
-            html.Div([
+
+                # Right Top div with map and prediction
                 html.Div([
-                    dcc.Graph(id="wine-plots-map")
-                ], className="seven columns"),   
+                    html.Div([
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id="wine-plots-map")                            
+                            ])
+                        ])
+                    ], className="seven columns"),   
+                    html.Div([
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id='wine-plots-best-sunburst')                          
+                            ])
+                        ])
+                        
+                    ], className="five columns left-border")
+                ]),
+                html.Br(),
+                # Right Bottom div with price distrib and one placeholder
                 html.Div([
-                    dcc.Graph(id='wine-plots-best-sunburst')
-                ], className="five columns left-border")
-            ]),
-            html.Br(),
-            # Right Bottom div with price distrib and one placeholder
-            html.Div([
-                html.Div([
-                    dcc.Graph(id="wine-plots-price-distribution")
-                ],className="six columns top-border"),
-                html.Div([
-                    dcc.Graph(id='wine-plots-points-bar')
-                ],className="six columns top-border left-border")
-            ])
+                    html.Div([
+                        dcc.Loading([
+                            html.Div([
+                                dcc.Graph(id="wine-plots-price-distribution")                        
+                            ])
+                        ])
+                    ],className="six columns top-border"),
+                    html.Div([
+                        dcc.Loading([
+                            html.Div([
+                               dcc.Graph(id='wine-plots-points-bar')                         
+                            ])
+                        ])
+                    ],className="six columns top-border left-border")
+                ])
         ], id='wine-plots-container', className='nine columns dark-container'),
     ], className='row')     
 ], style={'height':'100vh'})
@@ -92,4 +111,4 @@ def update_output(n_clicks, input_string):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', debug=True, port=8050)
