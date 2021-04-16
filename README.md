@@ -2,6 +2,15 @@
 
 Dataset : https://www.kaggle.com/zynicide/wine-reviews
 
+### Run
+
+It ez AF.
+
+```
+docker build -t incy_winec .
+docker run --rm -p 8050:8050 incy_winec:latest
+```
+
 ### Model (Plez improve):
 Log reg using countvectorizer on title and description.
 
