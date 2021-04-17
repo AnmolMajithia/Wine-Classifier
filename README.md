@@ -21,6 +21,9 @@ Plotly and dash
 3. Scatter Price-Plot distribution for all listed wineries in dataset.
 4. Bar chart with top 10 wineries accorading to avg. points and their prices.
 
+### Demo:
+[Heroku](https://incy-winec.herokuapp.com/)
+
 ### Screenshots:
 ![Home](Screenshots/1.png)
 ![Plots](Screenshots/2.png)
